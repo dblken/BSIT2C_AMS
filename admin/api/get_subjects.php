@@ -1,0 +1,49 @@
+<?php
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Include the database connection
+require_once '../../config/database.php';
+
+// Set content type to JSON
+header('Content-Type: application/json');
+
+try {
+    // Verify database connection 
+    if (!$conn) {
+        throw new Exception("Database connection failed");
+    }
+
+    // Query to get all subjects with assignment status
+    $query = "
+        SELECT s.*, 
+               (SELECT EXISTS(SELECT 1 FROM assignments a WHERE a.subject_id = s.id)) as is_assigned
+        FROM subjects s
+        WHERE s.status = 'Active'
+        ORDER BY s.subject_code
+    ";
+    
+    $result = mysqli_query($conn, $query);
+    
+    if (!$result) {
+        throw new Exception("Database query error: " . mysqli_error($conn));
+    }
+    
+    $subjects = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        // Convert is_assigned to boolean
+        $row['is_assigned'] = (bool)$row['is_assigned'];
+        $subjects[] = $row;
+    }
+    
+    echo json_encode($subjects);
+    
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode([
+        'error' => $e->getMessage(),
+        'trace' => $e->getTraceAsString()
+    ]);
+}
+?> 

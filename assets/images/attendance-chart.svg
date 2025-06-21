@@ -1,0 +1,36 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background Grid -->
+    <g stroke="rgba(255,255,255,0.1)" stroke-width="1">
+        <line x1="50" y1="50" x2="350" y2="50"/>
+        <line x1="50" y1="100" x2="350" y2="100"/>
+        <line x1="50" y1="150" x2="350" y2="150"/>
+        <line x1="50" y1="200" x2="350" y2="200"/>
+        <line x1="50" y1="250" x2="350" y2="250"/>
+    </g>
+    
+    <!-- Bar Chart -->
+    <g fill="rgba(255,255,255,0.8)">
+        <rect x="70" y="100" width="20" height="150"/>
+        <rect x="100" y="80" width="20" height="170"/>
+        <rect x="130" y="120" width="20" height="130"/>
+        <rect x="160" y="90" width="20" height="160"/>
+        <rect x="190" y="140" width="20" height="110"/>
+        <rect x="220" y="110" width="20" height="140"/>
+        <rect x="250" y="130" width="20" height="120"/>
+        <rect x="280" y="70" width="20" height="180"/>
+        <rect x="310" y="150" width="20" height="100"/>
+    </g>
+    
+    <!-- Chart Labels -->
+    <g fill="rgba(255,255,255,0.6)" font-family="Arial" font-size="12">
+        <text x="80" y="270" text-anchor="middle">Jan</text>
+        <text x="110" y="270" text-anchor="middle">Feb</text>
+        <text x="140" y="270" text-anchor="middle">Mar</text>
+        <text x="170" y="270" text-anchor="middle">Apr</text>
+        <text x="200" y="270" text-anchor="middle">May</text>
+        <text x="230" y="270" text-anchor="middle">Jun</text>
+        <text x="260" y="270" text-anchor="middle">Jul</text>
+        <text x="290" y="270" text-anchor="middle">Aug</text>
+        <text x="320" y="270" text-anchor="middle">Sep</text>
+    </g>
+</svg>

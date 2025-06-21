@@ -1,0 +1,447 @@
+[01-Apr-2025 17:35:01 Asia/Manila] Edit Assignment POST data: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 13
+    [days] => Array
+        (
+            [0] => Friday
+        )
+
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [location] => Room 206
+)
+
+[01-Apr-2025 17:35:01 Asia/Manila] Sanitized variables: id=16, teacher_id=19, subject_id=13, time_start=13:00:00, time_end=15:00:00, location=Room 206, month_from=2025-04-01, month_to=2025-09-16
+[01-Apr-2025 17:35:01 Asia/Manila] Days array: Array
+(
+    [0] => Friday
+)
+
+[01-Apr-2025 17:35:01 Asia/Manila] JSON days: ["Friday"]
+[01-Apr-2025 17:35:01 Asia/Manila] Current assignment: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 13
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [location] => Room 205
+    [created_at] => 2025-04-01 15:26:22
+    [updated_at] => 
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [preferred_day] => ["Friday"]
+)
+
+[01-Apr-2025 17:35:01 Asia/Manila] Same teacher and subject, skipping conflict checks
+[01-Apr-2025 17:35:01 Asia/Manila] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\BSIT2C_AMS\admin\assignments\edit_assignment.php:176
+Stack trace:
+#0 C:\xampp\htdocs\BSIT2C_AMS\admin\assignments\edit_assignment.php(176): mysqli_stmt->bind_param('iisssssssi', '19', '13', '2025-04-01', '2025-09-16', '["Friday"]', '13:00:00', '15:00:00', 'Room 206', '16')
+#1 {main}
+  thrown in C:\xampp\htdocs\BSIT2C_AMS\admin\assignments\edit_assignment.php on line 176
+[01-Apr-2025 17:35:06 Asia/Manila] Edit Assignment POST data: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 13
+    [days] => Array
+        (
+            [0] => Friday
+        )
+
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [location] => Room 206
+)
+
+[01-Apr-2025 17:35:06 Asia/Manila] Sanitized variables: id=16, teacher_id=19, subject_id=13, time_start=13:00:00, time_end=15:00:00, location=Room 206, month_from=2025-04-01, month_to=2025-09-16
+[01-Apr-2025 17:35:06 Asia/Manila] Days array: Array
+(
+    [0] => Friday
+)
+
+[01-Apr-2025 17:35:06 Asia/Manila] JSON days: ["Friday"]
+[01-Apr-2025 17:35:06 Asia/Manila] Current assignment: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 13
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [location] => Room 205
+    [created_at] => 2025-04-01 15:26:22
+    [updated_at] => 
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [preferred_day] => ["Friday"]
+)
+
+[01-Apr-2025 17:35:06 Asia/Manila] Same teacher and subject, skipping conflict checks
+[01-Apr-2025 17:35:06 Asia/Manila] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\BSIT2C_AMS\admin\assignments\edit_assignment.php:176
+Stack trace:
+#0 C:\xampp\htdocs\BSIT2C_AMS\admin\assignments\edit_assignment.php(176): mysqli_stmt->bind_param('iisssssssi', '19', '13', '2025-04-01', '2025-09-16', '["Friday"]', '13:00:00', '15:00:00', 'Room 206', '16')
+#1 {main}
+  thrown in C:\xampp\htdocs\BSIT2C_AMS\admin\assignments\edit_assignment.php on line 176
+[01-Apr-2025 17:39:04 Asia/Manila] Edit Assignment POST data: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 13
+    [days] => Array
+        (
+            [0] => Friday
+        )
+
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [location] => Room 206
+)
+
+[01-Apr-2025 17:39:04 Asia/Manila] Parsed data: id=16, teacher_id=19, subject_id=13
+[01-Apr-2025 17:39:04 Asia/Manila] Days array: Array
+(
+    [0] => Friday
+)
+
+[01-Apr-2025 17:39:04 Asia/Manila] JSON days: ["Friday"]
+[01-Apr-2025 17:39:04 Asia/Manila] Current assignment: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 13
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [location] => Room 205
+    [created_at] => 2025-04-01 15:26:22
+    [updated_at] => 
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [preferred_day] => ["Friday"]
+)
+
+[01-Apr-2025 17:39:04 Asia/Manila] About to bind parameters for update query
+[01-Apr-2025 17:39:04 Asia/Manila] Assignment updated successfully
+[01-Apr-2025 17:39:04 Asia/Manila] Deleted existing timetable entries
+[01-Apr-2025 17:39:04 Asia/Manila] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli::inTransaction() in C:\xampp\htdocs\BSIT2C_AMS\admin\assignments\edit_assignment.php:193
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\BSIT2C_AMS\admin\assignments\edit_assignment.php on line 193
+[01-Apr-2025 17:39:34 Asia/Manila] Edit Assignment POST data: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 13
+    [days] => Array
+        (
+            [0] => Friday
+        )
+
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [location] => Room 208
+)
+
+[01-Apr-2025 17:39:34 Asia/Manila] Parsed data: id=16, teacher_id=19, subject_id=13
+[01-Apr-2025 17:39:34 Asia/Manila] Days array: Array
+(
+    [0] => Friday
+)
+
+[01-Apr-2025 17:39:34 Asia/Manila] JSON days: ["Friday"]
+[01-Apr-2025 17:39:34 Asia/Manila] Current assignment: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 13
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [location] => Room 205
+    [created_at] => 2025-04-01 15:26:22
+    [updated_at] => 
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [preferred_day] => ["Friday"]
+)
+
+[01-Apr-2025 17:39:34 Asia/Manila] About to bind parameters for update query
+[01-Apr-2025 17:39:34 Asia/Manila] Assignment updated successfully
+[01-Apr-2025 17:39:34 Asia/Manila] Deleted existing timetable entries
+[01-Apr-2025 17:39:34 Asia/Manila] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli::inTransaction() in C:\xampp\htdocs\BSIT2C_AMS\admin\assignments\edit_assignment.php:193
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\BSIT2C_AMS\admin\assignments\edit_assignment.php on line 193
+[01-Apr-2025 17:50:43 Asia/Manila] Edit Assignment POST data: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 10
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [location] => Room 206
+    [days] => Array
+        (
+            [0] => Friday
+        )
+
+)
+
+[01-Apr-2025 17:50:43 Asia/Manila] Parsed data: id=16, teacher_id=19, subject_id=10
+[01-Apr-2025 17:50:43 Asia/Manila] Days array: Array
+(
+    [0] => Friday
+)
+
+[01-Apr-2025 17:50:43 Asia/Manila] JSON days: ["Friday"]
+[01-Apr-2025 17:50:43 Asia/Manila] Current assignment: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 13
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [location] => Room 205
+    [created_at] => 2025-04-01 15:26:22
+    [updated_at] => 
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [preferred_day] => ["Friday"]
+)
+
+[01-Apr-2025 17:50:43 Asia/Manila] About to bind parameters for update query
+[01-Apr-2025 17:50:43 Asia/Manila] Assignment updated successfully
+[01-Apr-2025 17:50:44 Asia/Manila] Deleted existing timetable entries
+[01-Apr-2025 17:50:44 Asia/Manila] Assignment update error: Unknown column 'teacher_id' in 'field list'
+[02-Apr-2025 10:04:12 Asia/Manila] Edit Assignment POST data: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 10
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [location] => Room 206
+    [days] => Array
+        (
+            [0] => Friday
+        )
+
+)
+
+[02-Apr-2025 10:04:12 Asia/Manila] Parsed data: id=16, teacher_id=19, subject_id=10
+[02-Apr-2025 10:04:12 Asia/Manila] Days array: Array
+(
+    [0] => Friday
+)
+
+[02-Apr-2025 10:04:12 Asia/Manila] JSON days: ["Friday"]
+[02-Apr-2025 10:04:12 Asia/Manila] Current assignment: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 13
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [location] => Room 205
+    [created_at] => 2025-04-01 15:26:22
+    [updated_at] => 
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [preferred_day] => ["Friday"]
+)
+
+[02-Apr-2025 10:04:12 Asia/Manila] About to bind parameters for update query
+[02-Apr-2025 10:04:12 Asia/Manila] Assignment updated successfully
+[02-Apr-2025 10:04:12 Asia/Manila] Deleted existing timetable entries
+[02-Apr-2025 10:04:12 Asia/Manila] Assignment update error: Unknown column 'teacher_id' in 'field list'
+[02-Apr-2025 10:11:18 Asia/Manila] Edit Assignment POST data: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 10
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [location] => Room 206
+    [days] => Array
+        (
+            [0] => Friday
+        )
+
+)
+
+[02-Apr-2025 10:11:18 Asia/Manila] Parsed data: id=16, teacher_id=19, subject_id=10
+[02-Apr-2025 10:11:18 Asia/Manila] Days array: Array
+(
+    [0] => Friday
+)
+
+[02-Apr-2025 10:11:18 Asia/Manila] JSON days: ["Friday"]
+[02-Apr-2025 10:11:18 Asia/Manila] Current assignment: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 13
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [location] => Room 205
+    [created_at] => 2025-04-01 15:26:22
+    [updated_at] => 
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [preferred_day] => ["Friday"]
+)
+
+[02-Apr-2025 10:11:18 Asia/Manila] About to bind parameters for update query
+[02-Apr-2025 10:11:18 Asia/Manila] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\BSIT2C_AMS\admin\assignments\edit_assignment.php:124
+Stack trace:
+#0 C:\xampp\htdocs\BSIT2C_AMS\admin\assignments\edit_assignment.php(124): mysqli_stmt->bind_param('iisssssssi', 19, 10, '13:00:00', '15:00:00', 'Room 206', '2025-04-01', '2025-09-16', '["Friday"]', 16)
+#1 {main}
+  thrown in C:\xampp\htdocs\BSIT2C_AMS\admin\assignments\edit_assignment.php on line 124
+[02-Apr-2025 10:14:26 Asia/Manila] Edit Assignment POST data: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 10
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [location] => Room 206
+    [days] => Array
+        (
+            [0] => Friday
+        )
+
+)
+
+[02-Apr-2025 10:14:26 Asia/Manila] Parsed data: id=16, teacher_id=19, subject_id=10
+[02-Apr-2025 10:14:26 Asia/Manila] Days array: Array
+(
+    [0] => Friday
+)
+
+[02-Apr-2025 10:14:26 Asia/Manila] JSON days: ["Friday"]
+[02-Apr-2025 10:14:26 Asia/Manila] Current assignment: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 13
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [location] => Room 205
+    [created_at] => 2025-04-01 15:26:22
+    [updated_at] => 
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [preferred_day] => ["Friday"]
+)
+
+[02-Apr-2025 10:14:26 Asia/Manila] About to bind parameters for update query
+[02-Apr-2025 10:14:26 Asia/Manila] Parameters: teacher_id=19, subject_id=10, time_start=13:00:00, time_end=15:00:00, location=Room 206, month_from=2025-04-01, month_to=2025-09-16, preferred_days=["Friday"], id=16
+[02-Apr-2025 10:14:26 Asia/Manila] PHP Fatal error:  Uncaught ArgumentCountError: The number of elements in the type definition string must match the number of bind variables in C:\xampp\htdocs\BSIT2C_AMS\admin\assignments\edit_assignment.php:125
+Stack trace:
+#0 C:\xampp\htdocs\BSIT2C_AMS\admin\assignments\edit_assignment.php(125): mysqli_stmt->bind_param('iisssssssi', 19, 10, '13:00:00', '15:00:00', 'Room 206', '2025-04-01', '2025-09-16', '["Friday"]', 16)
+#1 {main}
+  thrown in C:\xampp\htdocs\BSIT2C_AMS\admin\assignments\edit_assignment.php on line 125
+[02-Apr-2025 10:41:08 Asia/Manila] Edit Assignment POST data: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 10
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [location] => Room 206
+    [days] => Array
+        (
+            [0] => Friday
+        )
+
+)
+
+[02-Apr-2025 10:41:08 Asia/Manila] Parsed data: id=16, teacher_id=19, subject_id=10
+[02-Apr-2025 10:41:08 Asia/Manila] Days array: Array
+(
+    [0] => Friday
+)
+
+[02-Apr-2025 10:41:08 Asia/Manila] JSON days: ["Friday"]
+[02-Apr-2025 10:41:08 Asia/Manila] Current assignment: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 13
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [location] => Room 205
+    [created_at] => 2025-04-01 15:26:22
+    [updated_at] => 
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [preferred_day] => ["Friday"]
+)
+
+[02-Apr-2025 10:41:08 Asia/Manila] About to bind parameters for update query
+[02-Apr-2025 10:41:08 Asia/Manila] Parameters: teacher_id=19, subject_id=10, time_start=13:00:00, time_end=15:00:00, location=Room 206, month_from=2025-04-01, month_to=2025-09-16, preferred_days=["Friday"], id=16
+[02-Apr-2025 10:41:08 Asia/Manila] Assignment updated successfully
+[02-Apr-2025 10:41:08 Asia/Manila] Deleted existing timetable entries
+[02-Apr-2025 10:41:08 Asia/Manila] Assignment update error: Unknown column 'teacher_id' in 'field list'
+[02-Apr-2025 10:41:41 Asia/Manila] Edit Assignment POST data: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 10
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [location] => Room 206
+    [days] => Array
+        (
+            [0] => Friday
+        )
+
+)
+
+[02-Apr-2025 10:41:41 Asia/Manila] Parsed data: id=16, teacher_id=19, subject_id=10
+[02-Apr-2025 10:41:41 Asia/Manila] Days array: Array
+(
+    [0] => Friday
+)
+
+[02-Apr-2025 10:41:41 Asia/Manila] JSON days: ["Friday"]
+[02-Apr-2025 10:41:41 Asia/Manila] Current assignment: Array
+(
+    [id] => 16
+    [teacher_id] => 19
+    [subject_id] => 13
+    [time_start] => 13:00:00
+    [time_end] => 15:00:00
+    [location] => Room 205
+    [created_at] => 2025-04-01 15:26:22
+    [updated_at] => 
+    [month_from] => 2025-04-01
+    [month_to] => 2025-09-16
+    [preferred_day] => ["Friday"]
+)
+
+[02-Apr-2025 10:41:41 Asia/Manila] About to bind parameters for update query
+[02-Apr-2025 10:41:41 Asia/Manila] Parameters: teacher_id=19, subject_id=10, time_start=13:00:00, time_end=15:00:00, location=Room 206, month_from=2025-04-01, month_to=2025-09-16, preferred_days=["Friday"], id=16
+[02-Apr-2025 10:41:41 Asia/Manila] Assignment updated successfully
+[02-Apr-2025 10:41:41 Asia/Manila] Deleted existing timetable entries
+[02-Apr-2025 10:41:41 Asia/Manila] Assignment update error: Unknown column 'teacher_id' in 'field list'

@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteBase /your-project-folder/
+
+# Allow direct access to files
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Route all other requests to index.php
+RewriteRule ^(.*)$ index.php/$1 [L] 

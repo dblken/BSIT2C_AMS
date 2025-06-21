@@ -1,0 +1,401 @@
+<?php
+// Prevent any output before headers
+ob_start();
+
+require_once '../../config/database.php';
+
+// Make sure no HTML or whitespace is output before headers
+header('Content-Type: application/json');
+
+// Enable error reporting but log to file instead of output
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+ini_set('error_log', '../../logs/php_errors.log');
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        // Debug: Log the entire POST data
+        error_log("Edit Assignment POST data: " . print_r($_POST, true));
+        
+        // Check for required fields
+        $required_fields = ['id', 'teacher_id', 'subject_id', 'time_start', 'time_end', 'location', 'month_from', 'month_to'];
+        $missing_fields = [];
+        
+        foreach ($required_fields as $field) {
+            if (!isset($_POST[$field]) || empty($_POST[$field])) {
+                $missing_fields[] = $field;
+            }
+        }
+        
+        if (!empty($missing_fields)) {
+            throw new Exception('Missing required fields: ' . implode(', ', $missing_fields));
+        }
+        
+        if (!isset($_POST['days']) || !is_array($_POST['days']) || count($_POST['days']) == 0) {
+            throw new Exception('Please select at least one day for the schedule');
+        }
+        
+        $id = mysqli_real_escape_string($conn, $_POST['id']);
+        $teacher_id = mysqli_real_escape_string($conn, $_POST['teacher_id']);
+        $subject_id = mysqli_real_escape_string($conn, $_POST['subject_id']);
+        $time_start = mysqli_real_escape_string($conn, $_POST['time_start']);
+        $time_end = mysqli_real_escape_string($conn, $_POST['time_end']);
+        $location = mysqli_real_escape_string($conn, $_POST['location']);
+        $month_from = mysqli_real_escape_string($conn, $_POST['month_from']);
+        $month_to = mysqli_real_escape_string($conn, $_POST['month_to']);
+        
+        // Debug: Log all the sanitized variables
+        error_log("Sanitized variables: id=$id, teacher_id=$teacher_id, subject_id=$subject_id, time_start=$time_start, time_end=$time_end, location=$location, month_from=$month_from, month_to=$month_to");
+        
+        // Convert days array to JSON string
+        $preferred_days = json_encode($_POST['days']);
+        error_log("Days array: " . print_r($_POST['days'], true));
+        error_log("JSON days: " . $preferred_days);
+        
+        // Validate dates
+        if (strtotime($month_from) > strtotime($month_to)) {
+            throw new Exception('Start date must be earlier than end date');
+        }
+        
+        // Validate times
+        if (strtotime($time_end) <= strtotime($time_start)) {
+            throw new Exception('End time must be later than start time');
+        }
+
+        // Check if the assignment exists
+        $check_query = "SELECT * FROM assignments WHERE id = ?";
+        $stmt = $conn->prepare($check_query);
+        if (!$stmt) {
+            throw new Exception('Error preparing check statement: ' . $conn->error);
+        }
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows === 0) {
+            throw new Exception('Assignment not found');
+        }
+
+        // Get the current assignment data
+        $current_assignment = $result->fetch_assoc();
+        error_log("Current assignment: " . print_r($current_assignment, true));
+        
+        // If the teacher and subject are the same as current, skip the conflict checks
+        $skip_conflict_checks = false;
+        if ($current_assignment['teacher_id'] == $teacher_id && $current_assignment['subject_id'] == $subject_id) {
+            $skip_conflict_checks = true;
+            error_log("Same teacher and subject, skipping conflict checks");
+        }
+        
+        // Check for schedule conflicts - if the teacher is already assigned at this time on any of the selected days
+        if (!$skip_conflict_checks) {
+            $days = $_POST['days'];
+            $conflict_found = false;
+            $conflict_details = [];
+            
+            foreach ($days as $day) {
+                // Check for conflicts - teacher already assigned at same time on same day (excluding the current assignment)
+                $check_teacher_query = "SELECT a.id, s.subject_code, s.subject_name, a.time_start, a.time_end, 
+                                   a.preferred_day, a.location
+                            FROM assignments a 
+                            JOIN subjects s ON a.subject_id = s.id
+                            WHERE a.teacher_id = ? 
+                            AND a.id != ?
+                            AND JSON_CONTAINS(a.preferred_day, ?)
+                            AND (
+                                (a.time_start <= ? AND a.time_end > ?) OR
+                                (a.time_start < ? AND a.time_end >= ?) OR
+                                (a.time_start >= ? AND a.time_end <= ?)
+                            )";
+                
+                $day_json = json_encode($day);
+                $stmt = $conn->prepare($check_teacher_query);
+                if (!$stmt) {
+                    throw new Exception('Error preparing teacher conflict check: ' . $conn->error);
+                }
+                $stmt->bind_param("iisssssss", $teacher_id, $id, $day_json, $time_end, $time_start, $time_end, $time_start, $time_start, $time_end);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                
+                if ($result->num_rows > 0) {
+                    $conflict = $result->fetch_assoc();
+                    $conflict_details[] = [
+                        'day' => $day,
+                        'subject' => $conflict['subject_code'] . ' - ' . $conflict['subject_name'],
+                        'time' => date('h:i A', strtotime($conflict['time_start'])) . ' - ' . date('h:i A', strtotime($conflict['time_end'])),
+                    ];
+                    $conflict_found = true;
+                }
+            }
+            
+            if ($conflict_found) {
+                $conflict_message = "Schedule conflict detected. Teacher is already assigned to:\n";
+                foreach ($conflict_details as $conflict) {
+                    $conflict_message .= "- {$conflict['day']}: {$conflict['subject']} ({$conflict['time']})\n";
+                }
+                throw new Exception($conflict_message);
+            }
+
+            // Check if trying to change to a subject that is already assigned (excluding the current assignment)
+            $check_subject_query = "SELECT COUNT(*) as count FROM assignments WHERE subject_id = ? AND id != ?";
+            $stmt = $conn->prepare($check_subject_query);
+            if (!$stmt) {
+                throw new Exception('Error preparing subject check: ' . $conn->error);
+            }
+            $stmt->bind_param("ii", $subject_id, $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $count = $result->fetch_assoc()['count'];
+            
+            if ($count > 0) {
+                throw new Exception('This subject is already assigned to another teacher');
+            }
+        }
+
+        // Start transaction
+        $conn->begin_transaction();
+
+        // Update the assignment
+        $query = "UPDATE assignments SET 
+            teacher_id = ?, 
+            subject_id = ?, 
+            month_from = ?, 
+            month_to = ?,
+            preferred_day = ?, 
+            time_start = ?, 
+            time_end = ?, 
+            location = ?
+        WHERE id = ?";
+
+        $stmt = $conn->prepare($query);
+        if (!$stmt) {
+            throw new Exception('Error preparing update statement: ' . $conn->error);
+        }
+        
+        error_log("Binding parameters: teacher_id=$teacher_id, subject_id=$subject_id, month_from=$month_from, month_to=$month_to, preferred_days=$preferred_days, time_start=$time_start, time_end=$time_end, location=$location, id=$id");
+        
+        // Fix the bind_param call - ensure parameter count matches the placeholders
+        $stmt->bind_param("iisssssssi", 
+            $teacher_id, 
+            $subject_id, 
+            $month_from, 
+            $month_to, 
+            $preferred_days, 
+            $time_start, 
+            $time_end, 
+            $location,
+            $id
+        );
+        
+        $result = $stmt->execute();
+        if (!$result) {
+            throw new Exception('Error executing update statement: ' . $stmt->error);
+        }
+        
+        error_log("Updated assignment successfully");
+        
+        // Check if timetable table exists
+        $check_timetable = $conn->query("SHOW TABLES LIKE 'timetable'");
+        if ($check_timetable->num_rows === 0) {
+            // Create timetable table if it doesn't exist
+            $create_timetable = "CREATE TABLE timetable (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                subject_id INT NOT NULL,
+                assignment_id INT NOT NULL,
+                teacher_id INT NOT NULL,
+                day VARCHAR(20) NOT NULL, 
+                start_time TIME NOT NULL,
+                end_time TIME NOT NULL,
+                room VARCHAR(50) NOT NULL,
+                status ENUM('Active', 'Inactive') DEFAULT 'Active',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (subject_id) REFERENCES subjects(id) ON DELETE CASCADE,
+                FOREIGN KEY (assignment_id) REFERENCES assignments(id) ON DELETE CASCADE, 
+                FOREIGN KEY (teacher_id) REFERENCES teachers(id) ON DELETE CASCADE
+            )";
+            
+            if (!$conn->query($create_timetable)) {
+                throw new Exception("Failed to create timetable table: " . $conn->error);
+            }
+        }
+        
+        // Get day number mapping for timetable
+        $day_mapping = [
+            'Monday' => 1,
+            'Tuesday' => 2,
+            'Wednesday' => 3,
+            'Thursday' => 4,
+            'Friday' => 5,
+            'Saturday' => 6
+        ];
+        
+        // Delete existing timetable entries for this assignment
+        $delete_query = "DELETE FROM timetable WHERE assignment_id = ?";
+        $delete_stmt = $conn->prepare($delete_query);
+        if (!$delete_stmt) {
+            throw new Exception('Error preparing delete statement: ' . $conn->error);
+        }
+        $delete_stmt->bind_param("i", $id);
+        $delete_stmt->execute();
+        
+        error_log("Deleted existing timetable entries");
+        
+        // Create timetable entries for each day
+        $days = $_POST['days'];
+        foreach ($days as $day) {
+            $day_number = $day_mapping[$day] ?? null;
+            
+            // Create timetable entry query
+            $timetable_query = "INSERT INTO timetable (
+                subject_id, assignment_id, teacher_id, day, start_time, end_time, room
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            
+            $timetable_stmt = $conn->prepare($timetable_query);
+            if (!$timetable_stmt) {
+                throw new Exception('Error preparing timetable statement: ' . $conn->error);
+            }
+            
+            // Use either the day name or number based on the table structure
+            $day_value = is_numeric($day_number) ? $day_number : $day;
+            
+            $timetable_stmt->bind_param("iiissss", 
+                $subject_id, 
+                $id, // Use the existing assignment ID
+                $teacher_id,
+                $day_value,
+                $time_start, 
+                $time_end, 
+                $location
+            );
+            
+            if (!$timetable_stmt->execute()) {
+                throw new Exception('Error creating timetable entry: ' . $timetable_stmt->error);
+            }
+            
+            error_log("Created timetable entry for day: $day");
+        }
+
+        // Create notification for the teacher
+        try {
+            $teacher_query = "SELECT CONCAT(first_name, ' ', last_name) as teacher_name FROM teachers WHERE id = ?";
+            $subject_query = "SELECT subject_code, subject_name FROM subjects WHERE id = ?";
+            
+            $teacher_stmt = $conn->prepare($teacher_query);
+            $teacher_stmt->bind_param("i", $teacher_id);
+            $teacher_stmt->execute();
+            $teacher = $teacher_stmt->get_result()->fetch_assoc();
+            
+            $subject_stmt = $conn->prepare($subject_query);
+            $subject_stmt->bind_param("i", $subject_id);
+            $subject_stmt->execute();
+            $subject = $subject_stmt->get_result()->fetch_assoc();
+            
+            // Format the days for better display
+            $days_formatted = implode(', ', $_POST['days']);
+            
+            // Create notification
+            $notification_message = "Your teaching assignment for {$subject['subject_code']} - {$subject['subject_name']} 
+                                has been updated. New schedule: $days_formatted from " . date('h:i A', strtotime($time_start)) . 
+                                " to " . date('h:i A', strtotime($time_end)) . 
+                                " at {$location}. This assignment runs from " . date('M j, Y', strtotime($month_from)) .
+                                " to " . date('M j, Y', strtotime($month_to)) . ".";
+            
+            // Check if notifications table exists
+            $check_notif = $conn->query("SHOW TABLES LIKE 'notifications'");
+            if ($check_notif->num_rows > 0) {
+                $notification_query = "INSERT INTO notifications (teacher_id, message) VALUES (?, ?)";
+                $notification_stmt = $conn->prepare($notification_query);
+                $notification_stmt->bind_param("is", $teacher_id, $notification_message);
+                $notification_stmt->execute();
+                error_log("Created notification for teacher");
+            }
+        } catch (Exception $notif_error) {
+            // Log notification error but continue with transaction
+            error_log("Error creating notification: " . $notif_error->getMessage());
+        }
+        
+        // Commit transaction
+        $conn->commit();
+        error_log("Transaction committed successfully");
+        
+        // Clean output buffer before sending final response
+        ob_clean();
+        echo json_encode([
+            'success' => true, 
+            'message' => 'Assignment updated successfully'
+        ]);
+        
+    } catch (Exception $e) {
+        // Rollback transaction on error
+        if ($conn && $conn->inTransaction()) {
+            $conn->rollback();
+        }
+        
+        // Clean output buffer before sending error response
+        ob_clean();
+        echo json_encode([
+            'success' => false, 
+            'message' => $e->getMessage(),
+            'post_data' => $_POST
+        ]);
+        
+        // Log the error to the server log
+        error_log("Assignment update error: " . $e->getMessage());
+    }
+} elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
+    // Get assignment data for editing
+    try {
+        $id = mysqli_real_escape_string($conn, $_GET['id']);
+        
+        $query = "SELECT * FROM assignments WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows === 0) {
+            throw new Exception('Assignment not found');
+        }
+        
+        $assignment = $result->fetch_assoc();
+        
+        // Format the days - make sure we decode JSON safely
+        try {
+            $days = json_decode($assignment['preferred_day'], true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                error_log("JSON decode error: " . json_last_error_msg() . " for " . $assignment['preferred_day']);
+                $days = [];
+            }
+            $assignment['days'] = $days;
+        } catch (Exception $json_error) {
+            error_log("Error decoding JSON: " . $json_error->getMessage());
+            $assignment['days'] = [];
+        }
+        
+        // Clean output buffer before sending JSON
+        ob_clean();
+        echo json_encode([
+            'success' => true,
+            'data' => $assignment
+        ]);
+    } catch (Exception $e) {
+        // Clean output buffer before sending error response
+        ob_clean();
+        echo json_encode([
+            'success' => false,
+            'message' => $e->getMessage()
+        ]);
+    }
+} else {
+    // Clean output buffer before sending error response
+    ob_clean();
+    echo json_encode([
+        'success' => false, 
+        'message' => 'Invalid request method'
+    ]);
+}
+
+// End output buffering and flush
+ob_end_flush();
+?> 

@@ -1,0 +1,16 @@
+/* Add your custom styles here */
+.content-wrapper {
+    background-color: #f4f6f9;
+}
+
+.card {
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    margin-bottom: 1rem;
+}
+
+.small-box {
+    position: relative;
+    display: block;
+    margin-bottom: 20px;
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+} 
