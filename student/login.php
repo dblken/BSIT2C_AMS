@@ -367,7 +367,7 @@ unset($_SESSION['error']);
             <img src="../assets/images/logos/logo_nobg.png" alt="Logo">
         </div>
         <div class="login-section">
-            <h2>Student Login</h2>
+            <h2>Student Logins</h2>
             <?php if ($error): ?>
                 <div class="error"><?php echo htmlspecialchars($error); ?></div>
             <?php endif; ?>

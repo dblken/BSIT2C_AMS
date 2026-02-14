@@ -27,6 +27,21 @@
             "database": "attendance_system_1",
             "username": "root",
             "password": "1234"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "attendance sytem",
+            "database": "attendance_system_1",
+            "username": "root",
+            "password": "1234"
         }
     ]
 }
