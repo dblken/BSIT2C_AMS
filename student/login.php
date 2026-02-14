@@ -76,7 +76,7 @@ unset($_SESSION['error']);
             font-family: 'Poppins', sans-serif;
             margin: 0; 
             padding: 0; 
-            background: linear-gradient(135deg, #021F3F 0%, #021F3F 60%, #d4b794 100%);
+            background: linear-gradient(135deg, #1a5f38 0%, #1a5f38 60%, #4CAF50 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -94,7 +94,7 @@ unset($_SESSION['error']);
             flex-direction: column;
         }
         .form-header {
-            background: #021F3F;
+            background: #1a5f38;
             border-top-left-radius: 12px;
             border-top-right-radius: 12px;
             padding: 24px 0 12px 0;
@@ -111,7 +111,7 @@ unset($_SESSION['error']);
             transition: transform 0.3s ease;
         }
         h2 {
-            color: #021F3F;
+            color: #1a5f38;
             text-align: center;
             margin-bottom: 35px;
             font-size: 24px;
@@ -125,7 +125,7 @@ unset($_SESSION['error']);
         label { 
             display: block; 
             margin-bottom: 8px; 
-            color: #021F3F;
+            color: #1a5f38;
             font-weight: 500;
             font-size: 14px;
             letter-spacing: 0.3px;
@@ -140,22 +140,22 @@ unset($_SESSION['error']);
             font-family: 'Poppins', sans-serif;
             transition: all 0.3s ease;
             background: #ffffff;
-            color: #021F3F;
+            color: #1a5f38;
         }
         input[type="text"]::placeholder, input[type="password"]::placeholder, input[type="email"]::placeholder {
             color: #666;
         }
         input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
-            border-color: #C8A77E;
+            border-color: #45a049;
             outline: none;
             background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(200, 167, 126, 0.1);
-            color: #021F3F;
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
+            color: #1a5f38;
         }
         button { 
             width: 100%; 
             padding: 16px; 
-            background: #021F3F; 
+            background: #1a5f38; 
             color: white; 
             border: none; 
             border-radius: 8px; 
@@ -169,7 +169,7 @@ unset($_SESSION['error']);
             overflow: hidden;
         }
         button:hover { 
-            background: #d4b794; 
+            background: #4CAF50; 
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
@@ -191,7 +191,7 @@ unset($_SESSION['error']);
             margin-top: 30px; 
         }
         .links a { 
-            color: #021F3F; 
+            color: #1a5f38; 
             text-decoration: none; 
             margin: 0 15px; 
             font-weight: 500;
@@ -200,7 +200,7 @@ unset($_SESSION['error']);
             position: relative;
         }
         .links a:hover { 
-            color: #C8A77E; 
+            color: #45a049; 
         }
         .links a::after {
             content: '';
@@ -209,7 +209,7 @@ unset($_SESSION['error']);
             height: 2px;
             bottom: -4px;
             left: 0;
-            background-color: #C8A77E;
+            background-color: #45a049;
             transition: width 0.3s ease;
         }
         .links a:hover::after {
@@ -241,7 +241,7 @@ unset($_SESSION['error']);
             transition: color 0.3s ease;
         }
         .toggle-password:hover {
-            color: #C8A77E;
+            color: #45a049;
         }
         /* Modal styles for Forgot Password */
         .modal-overlay {
@@ -275,7 +275,7 @@ unset($_SESSION['error']);
             border-radius: 50%;
             background: #fff;
             border: 1px solid #eee;
-            color: #021F3F;
+            color: #1a5f38;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -295,13 +295,13 @@ unset($_SESSION['error']);
         }
         .modal-box h3 {
             margin-bottom: 18px;
-            color: #021F3F;
+            color: #1a5f38;
             font-size: 20px;
             font-weight: 600;
         }
         .modal-box button[type="submit"] {
             width: 100%;
-            background: #021F3F;
+            background: #1a5f38;
             color: white;
             padding: 10px 0;
             border: none;
@@ -310,8 +310,8 @@ unset($_SESSION['error']);
             margin-bottom: 8px;
         }
         .modal-box button[type="submit"]:hover {
-            background: #d4b794;
-            color: #021F3F;
+            background: #4CAF50;
+            color: #1a5f38;
         }
         .modal-box #forgotPasswordMsg {
             margin-top: 8px;
@@ -386,7 +386,7 @@ unset($_SESSION['error']);
                 <button type="submit">Login</button>
             </form>
             <div id="forgot-password-section" style="text-align:center; margin-top:10px;">
-                <a href="#" id="forgotPasswordLink" style="color:#C8A77E; font-size:14px; text-decoration:underline; cursor:pointer;">Forgot Password?</a>
+                <a href="#" id="forgotPasswordLink" style="color:#45a049; font-size:14px; text-decoration:underline; cursor:pointer;">Forgot Password?</a>
             </div>
             <div class="links">
                 <a href="../teacher/login.php">Teacher Login</a>
